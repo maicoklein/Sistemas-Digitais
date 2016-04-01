@@ -1,27 +1,28 @@
 // Pisca LED
 
-module piscar (
+module piscaLed (
 
-    input clock,
-    input entrada
-    output [1:0] LEDG
+    input CLOCK_50,
+    output [0:0] LEDG
     
 );
 
     /* reg */
-    reg data1 = 1'b1;
-    reg [32:0] counter;
-    reg state;
+    reg [31:0] contador = 0;
+    reg estado = 0;
     
     /* assign */
-    assign LEDG[0] = state;
-    assign LEDG[1] = data1;
+    assign LEDG[0] = estado;
     
     /* always */
-    always @ (posedge clock) begin
-        counter <= counter + 1;
-        state <= counter[26]; // estado
+    always @ (posedge CLOCK_50) begin
+        
+        if(contador == 50000000) begin
+          estado <= ~estado; // estado
+          contador <= 0;
+        end else begin 
+		contador <= contador + 1;
+	end
     end
 
 endmodule
-
